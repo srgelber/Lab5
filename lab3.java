@@ -1,12 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.*;
+import java.io.FileWriter;
 
 //Simon Gelber and Kush Upadhyay: CPE315(SENG), Section 5
 public class lab3 {
 
-    public static void main(String[] args)throws FileNotFoundException{
+    public static void main(String[] args)throws FileNotFoundException, IOException {
 
         Map<String, Integer> registers  = new HashMap<String, Integer>() {{
             put("pc", 0);
@@ -39,6 +41,13 @@ public class lab3 {
             put("sp", 0);
             put("ra", 0);
         }};
+
+        if (args.length > 2){
+            int ghr_size = Integer.parseInt(args[2]);
+
+            System.out.println(ghr_size);
+        }
+
 
         Dictionary labelDict = new Hashtable();
         Scanner scanner = new Scanner(new File(args[0]));
@@ -432,6 +441,18 @@ public class lab3 {
             else if (input[0].equals("d")){
                 System.out.println("\npc = "+registers.get("pc")+"\n$0 = "+registers.get("0")+"$v0 = "+registers.get("v0")+"$v1 = "+registers.get("v1")+"$a0 = "+registers.get("a0")+ "\n$a1 = "+registers.get("a1")+"$a2 = "+registers.get("a2")+"$a3 = "+registers.get("a3")+"$t0 = "+registers.get("t0")+"\n$t1 = "+registers.get("t1")+"$t2 = "+registers.get("t2")+"$t3 = "+registers.get("t3")+"$t4 = "+registers.get("t4")+"\n$t5 = "+registers.get("t5")+"$t6 = "+registers.get("t6")+"$t7 = "+registers.get("t7")+"$s0 = "+registers.get("s0")+"\n$s1 = "+registers.get("s1")+"$s2 = "+registers.get("s2")+"$s3 = "+registers.get("s3")+"$s4 = "+registers.get("s4")+"\n$s5 = "+registers.get("s5")+"$s6 = "+registers.get("s6")+"$s7 = "+registers.get("s7")+"$t8 = "+registers.get("t8")+"\n$t9 = "+registers.get("t9")+"$sp = "+registers.get("sp")+"$ra = "+registers.get("ra")+"\n");
 
+            }
+            else if (input[0].equals("o")){
+                FileWriter csvWriter = new FileWriter("coordinates.csv");
+
+                for (int csv_line_count = 0; csv_line_count < (dataMem.length / 2); csv_line_count+=2){
+                    String line = dataMem[csv_line_count] + "," + dataMem[csv_line_count + 1];
+                    csvWriter.append(line);
+                    csvWriter.append("\n");
+                }
+
+                csvWriter.flush();
+                csvWriter.close();
             }
 
         }
