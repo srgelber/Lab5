@@ -1,2 +1,2 @@
-lab3:
+lab5:
 	javac *.java;
